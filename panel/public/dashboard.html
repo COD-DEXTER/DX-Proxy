@@ -1,33 +1,34 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" class="dark">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مدیریت پروکسی - DX-Proxy</title>
+    <title>Dashboard - DX-Proxy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <style>
-        * { font-family: 'Vazirmatn', sans-serif; }
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace !important; }
         
-        /* Mobile responsive sidetoggle overrides */
+        /* Mobile responsive sidebar overrides (left-side) */
         @media (max-width: 1023px) {
             .sidebar {
                 position: fixed !important;
                 top: 0 !important;
-                right: -100% !important;
-                left: auto !important;
+                left: -100% !important;
+                right: auto !important;
                 width: 270px !important;
                 height: 100vh !important;
                 background: #0d0d18 !important;
-                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                border-right: 1px solid rgba(255,255,255,0.04) !important;
+                transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
                 z-index: 1000 !important;
                 overflow-y: auto !important;
                 display: block !important;
             }
-            .sidebar.active { right: 0 !important; }
+            .sidebar.active { left: 0 !important; }
             .sidebar-overlay {
                 display: none;
                 position: fixed;
@@ -37,7 +38,7 @@
                 backdrop-filter: blur(4px);
             }
             .sidebar-overlay.active { display: block; }
-            .lg\:mr-64 { margin-right: 0 !important; }
+            .lg\:ml-64 { margin-left: 0 !important; }
         }
     </style>
 </head>
@@ -46,13 +47,13 @@
     <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <div id="toast" class="toast"></div>
 
-    <!-- s سایدبار -->
-    <nav class="fixed inset-y-0 right-0 w-64 sidebar z-50 flex flex-col justify-between p-6">
+    <!-- Sidebar (Left alignment) -->
+    <nav class="fixed inset-y-0 left-0 w-64 sidebar z-50 flex flex-col justify-between p-6">
         <div class="w-full">
             <div class="flex items-center gap-3 mb-10">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
                 <span class="text-lg font-bold text-white">DX-Proxy</span>
@@ -60,22 +61,22 @@
             
             <nav class="space-y-1">
                 <button onclick="showPage('dashboard')" class="sidebar-link active flex items-center gap-3 text-sm font-medium text-indigo-400 w-full" data-page="dashboard">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                     </svg>
-                    نمای کلی سیستم
+                    Overview
                 </button>
                 <button onclick="showPage('users')" class="sidebar-link flex items-center gap-3 text-sm font-medium text-zinc-400 hover:text-white transition w-full" data-page="users">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
-                    مدیریت کاربران <span class="badge badge-on mr-auto py-0.5 px-2 text-[10px]" id="sidebar-user-count">0</span>
+                    Users <span class="badge badge-success ml-auto py-0.5 px-2 text-[10px]" id="sidebar-user-count">0</span>
                 </button>
                 <button onclick="logoutBtnClick()" class="sidebar-link flex items-center gap-3 text-sm font-medium text-zinc-400 hover:text-red-400 transition w-full">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
-                    خروج از حساب
+                    Logout
                 </button>
             </nav>
         </div>
@@ -85,57 +86,56 @@
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-sm font-bold text-white">DX</div>
                     <div>
-                        <p class="text-sm font-semibold text-white">مدیر سرور</p>
-                        <p class="text-xs text-emerald-400">اتصال برقرار است</p>
+                        <p class="text-sm font-semibold text-white">Administrator</p>
+                        <p class="text-xs text-emerald-400">Connected</p>
                     </div>
                 </div>
             </div>
             <div class="mt-3 flex items-center justify-between text-xs text-zinc-500">
-                <span>نسخه 1.0.0</span>
+                <span>Version 1.0.0</span>
                 <span>@COD-DEXTER</span>
             </div>
         </div>
     </nav>
-    <!-- e سایدبار -->
+    <!-- End Sidebar -->
 
-    <!-- محتوای اصلی -->
-    <div class="lg:mr-64 min-h-screen flex-1 flex flex-col main-content">
+    <!-- Main Content (All layout left-aligned LTR) -->
+    <div class="lg:ml-64 min-h-screen flex-1 flex flex-col main-content">
         
-        <!-- هدر -->
+        <!-- Header -->
         <header class="bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-zinc-800/30 px-6 py-4 sticky top-0 z-40 flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-white/5 text-zinc-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
                 <div>
-                    <h1 class="text-xl font-bold text-white" id="page-title">نمای کلی سیستم</h1>
-                    <p class="text-xs text-zinc-400 hidden sm:block" id="page-subtitle">وضعیت لحظه‌ای سرور و کاربران تلگرام</p>
+                    <h1 class="text-xl font-bold text-white animate-fade-in" id="page-title">Overview</h1>
+                    <p class="text-xs text-zinc-400 hidden sm:block" id="page-subtitle">Real-time server and MTProto proxy metrics</p>
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <button id="backupBtn" class="icon-btn" title="پشتیبان‌گیری"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M12 5l-5 5M12 5l5 5"/></svg></button>
-                <button id="refreshBtn" class="icon-btn" title="به‌روزرسانی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11a8 8 0 1 0-2.3 5.6M20 5v6h-6"/></svg></button>
-                <button id="settingsBtn" class="icon-btn" title="تنظیمات سیستم"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+                <button id="backupBtn" class="icon-btn" title="Backup Server"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M12 5l-5 5M12 5l5 5"/></svg></button>
+                <button id="refreshBtn" class="icon-btn" title="Refresh Live Data"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11a8 8 0 1 0-2.3 5.6M20 5v6h-6"/></svg></button>
+                <button id="settingsBtn" class="icon-btn" title="Proxy Settings"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
             </div>
         </header>
 
-        <!-- بخش کانتنت صفحات با تغییر تگ Active -->
         <main class="p-6 flex-1">
             
             <!-- PAGE: DASHBOARD -->
             <div id="page-dashboard" class="page-section active">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <div class="glass rounded-2xl p-6 stat-card">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">کاربران فعال</p>
+                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">Active Users</p>
                                 <p class="text-3xl font-black text-emerald-400 mt-1" id="statActiveUsers">0</p>
                             </div>
                             <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
                             </div>
                         </div>
@@ -143,12 +143,12 @@
                     <div class="glass rounded-2xl p-6 stat-card">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">کل کاربران</p>
+                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">Total Users</p>
                                 <p class="text-3xl font-black text-white mt-1" id="statTotalUsers">0</p>
                             </div>
                             <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                                <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
                                 </svg>
                             </div>
                         </div>
@@ -156,12 +156,12 @@
                     <div class="glass rounded-2xl p-6 stat-card">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">مصرف ترافیک کل</p>
+                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">Total Traffic</p>
                                 <p class="text-2xl font-black text-blue-400 mt-1" id="statTraffic">0 B</p>
                             </div>
                             <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2"/>
+                                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2"/>
                                 </svg>
                             </div>
                         </div>
@@ -169,28 +169,28 @@
                     <div class="glass rounded-2xl p-6 stat-card">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">وضعیت پروکسی</p>
+                                <p class="text-zinc-400 text-xs font-medium uppercase tracking-wider">Proxy Status</p>
                                 <p class="text-2xl font-black text-yellow-400 mt-1" id="statProxyState">—</p>
                             </div>
                             <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center" id="statusIconWrap">
-                                <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2H2v10h10V2zM22 12H12v10h10V12z"/>
+                                <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2H2v10h10V2zM22 12H12v10h10V12z"/>
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-[11px] text-zinc-500 mt-2 flex items-center gap-1.5" id="statConnections">۰ اتصال باز</p>
+                        <p class="text-[11px] text-zinc-500 mt-2 flex items-center gap-1.5" id="statConnections">0 Live Connections</p>
                     </div>
                 </div>
 
                 <div class="glass rounded-2xl p-6 mb-6">
-                    <h3 class="text-md font-bold text-white mb-4">آمار زنده ترافیک کارت شبکه (mtg-multi)</h3>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Live Proxy Network Stats (mtg-multi)</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="glass-light p-4 rounded-xl">
-                            <span class="text-xs text-zinc-400">بایت‌های دریافتی (Download)</span>
+                            <span class="text-xs text-zinc-400 font-medium">Download Traffic (Bytes RX)</span>
                             <p class="text-xl font-mono text-emerald-400 mt-1" id="stat-bytes-rx">0 Bytes</p>
                         </div>
                         <div class="glass-light p-4 rounded-xl">
-                            <span class="text-xs text-zinc-400">بایت‌های ارسالی (Upload)</span>
+                            <span class="text-xs text-zinc-400 font-medium">Upload Traffic (Bytes TX)</span>
                             <p class="text-xl font-mono text-blue-400 mt-1" id="stat-bytes-tx">0 Bytes</p>
                         </div>
                     </div>
@@ -201,87 +201,90 @@
             <div id="page-users" class="page-section">
                 <div class="glass rounded-2xl p-6">
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-lg font-bold text-white">کاربران فعال</h2>
-                        <button id="addUserBtn" class="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-bold rounded-xl transition text-sm flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                            افزودن کاربر جدید
+                        <div>
+                            <h2 class="text-lg font-bold text-white">Named Proxy Users</h2>
+                            <p class="text-xs text-zinc-400">Generate and monitor isolated MTProto keys</p>
+                        </div>
+                        <button id="addUserBtn" class="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-bold rounded-xl transition text-sm flex items-center gap-2 shadow-lg shadow-indigo-500/25">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                            Add New User
                         </button>
                     </div>
 
                     <div class="flex flex-wrap gap-3 mb-6">
                         <div class="search-box flex-1 min-w-[200px] flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 text-zinc-400">
                             <svg class="w-4 h-4 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 21-4.3-4.3M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
-                            <input id="searchInput" placeholder="جستجوی کاربر..." class="bg-transparent border-none outline-none py-2 text-white w-full text-sm">
+                            <input id="searchInput" placeholder="Search user name..." class="bg-transparent border-none outline-none py-2 text-white w-full text-sm">
                         </div>
                         <select id="filterSelect" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-zinc-300 text-sm outline-none cursor-pointer">
-                            <option value="all">همه</option>
-                            <option value="enabled">فعال</option>
-                            <option value="disabled">غیرفعال</option>
+                            <option value="all">All Statuses</option>
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled">Disabled</option>
                         </select>
                         <select id="sortSelect" class="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-zinc-300 text-sm outline-none cursor-pointer">
-                            <option value="new">جدیدترین</option>
-                            <option value="name">نام (الفبا)</option>
-                            <option value="traffic">بیشترین ترافیک</option>
+                            <option value="new">Newest Created</option>
+                            <option value="name">Alphabetical</option>
+                            <option value="traffic">Highest Traffic</option>
                         </select>
                     </div>
 
                     <div class="table-scroll">
-                        <table id="usersTable" class="w-full text-right">
+                        <table id="usersTable" class="w-full text-left">
                             <thead>
                                 <tr class="border-b border-white/10 text-zinc-500 text-xs uppercase tracking-wider">
-                                    <th class="p-3">وضعیت</th>
-                                    <th class="p-3">نام کاربر</th>
-                                    <th class="p-3">اتصالات باز</th>
-                                    <th class="p-3">ترافیک مصرف‌شده</th>
-                                    <th class="p-3">لینک اتصال</th>
-                                    <th class="p-3 text-left">عملیات</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">User Name</th>
+                                    <th class="p-3">Active Conns</th>
+                                    <th class="p-3">Data Exchanged</th>
+                                    <th class="p-3">MTProto Link</th>
+                                    <th class="p-3 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody class="divide-y divide-zinc-800/30"></tbody>
                         </table>
                     </div>
-                    <p class="empty-state py-12" id="emptyState" hidden>کاربری وجود ندارد. از دکمه بالا برای ساخت کاربر جدید استفاده کنید.</p>
+                    <p class="empty-state py-12" id="emptyState" hidden>No proxy users found. Click "Add New User" to begin.</p>
                 </div>
             </div>
 
-            <!-- PAGE: SETTINGS (ادغام شده با تنظیمات) -->
+            <!-- PAGE: SETTINGS -->
             <div id="page-settings" class="page-section">
                 <div class="glass rounded-2xl p-6 max-w-2xl">
-                    <h2 class="text-lg font-bold text-white mb-6">تنظیمات پروکسی سرور</h2>
+                    <h2 class="text-lg font-bold text-white mb-6">Proxy Server Configuration</h2>
                     
                     <div class="space-y-6">
                         <div class="glass-light p-4 rounded-xl">
-                            <h4 class="text-sm font-bold text-white mb-1">آدرس اتصالات خارجی پروکسی</h4>
-                            <p class="text-xs text-zinc-400 mb-3">جهت ساخت و توزیع صحیح لینک اتصال تلگرام (t.me/proxy) این فیلدها را به درستی مقداردهی کنید.</p>
+                            <h4 class="text-sm font-bold text-white mb-1">External Proxy Address</h4>
+                            <p class="text-xs text-zinc-400 mb-3">Specify the public hostname and port of your proxy server to correctly compile t.me link configurations.</p>
                             <div class="row">
-                                <input id="proxyHost" placeholder="مثال: custom.domain.com" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none">
-                                <input id="proxyPort" placeholder="پورت" class="w-24 px-4 py-3 rounded-xl text-white outline-none text-center">
-                                <button class="btn-primary" id="saveProxyBtn">ذخیره آدرس</button>
+                                <input id="proxyHost" placeholder="e.g. proxy.domain.com" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none font-mono" dir="ltr">
+                                <input id="proxyPort" placeholder="Port" class="w-24 px-4 py-3 rounded-xl text-white outline-none text-center font-mono" dir="ltr">
+                                <button class="btn-primary" id="saveProxyBtn">Save Address</button>
                             </div>
                         </div>
 
                         <div class="glass-light p-4 rounded-xl">
-                            <h4 class="text-sm font-bold text-white mb-1">دامنه Fake-TLS برای مبدل سکرت</h4>
-                            <p class="text-xs text-zinc-400 mb-3">این دامنه در زمان ساخت یا تعویض کلید سکرت جدید کاربر، داخل هدر Fake-TLS قرار می‌گیرد.</p>
+                            <h4 class="text-sm font-bold text-white mb-1">Fake-TLS Decoy Domain</h4>
+                            <p class="text-xs text-zinc-400 mb-3">This host (e.g. www.google.com) is injected into TLS handshakes when compiling secrets.</p>
                             <div class="row">
-                                <input id="tlsDomain" placeholder="مثال: www.yahoo.com" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none">
-                                <button class="btn-primary" id="saveDomainBtn">ذخیره دامنه</button>
+                                <input id="tlsDomain" placeholder="e.g. www.yahoo.com" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none font-mono" dir="ltr">
+                                <button class="btn-primary" id="saveDomainBtn">Save Decoy</button>
                             </div>
                         </div>
 
                         <div class="glass-light p-4 rounded-xl">
-                            <h4 class="text-sm font-bold text-white mb-2">راه‌اندازی سرویس پروکسی</h4>
-                            <p class="text-xs text-zinc-400 mb-3">در صورت اعمال تغییرات، جهت اعمال آنی و اعمال فایل کانفیگ mtg-multi از این دکمه استفاده کنید.</p>
-                            <button class="btn-primary" id="reloadBtn">اعمال فایلهای کانفیگ و ری‌استارت</button>
+                            <h4 class="text-sm font-bold text-white mb-2">Reload Proxy Service</h4>
+                            <p class="text-xs text-zinc-400 mb-3">Forces mtg-multi to refresh its internal TOML configuration file dynamically.</p>
+                            <button class="btn-primary" id="reloadBtn">Reload Configuration & Restart</button>
                         </div>
 
                         <div class="glass-light p-4 rounded-xl">
-                            <h4 class="text-sm font-bold text-white mb-2">تغییر رمز عبور پنل وب</h4>
-                            <p class="text-xs text-zinc-400 mb-3">نام کاربری و رمز جدید برای لاگین در مرورگر وب را تغییر دهید.</p>
+                            <h4 class="text-sm font-bold text-white mb-2">Change Panel Auth Access</h4>
+                            <p class="text-xs text-zinc-400 mb-3">Reset the login credentials used to access this web panel interface.</p>
                             <div class="row">
-                                <input id="newUsername" placeholder="نام کاربری جدید" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none">
-                                <input id="newPassword" type="password" placeholder="رمز عبور جدید" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none">
-                                <button class="btn-primary" id="savePassBtn">تغییر دسترسی</button>
+                                <input id="newUsername" placeholder="New Username" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none font-mono" dir="ltr">
+                                <input id="newPassword" type="password" placeholder="New Password" class="w-full sm:flex-1 px-4 py-3 rounded-xl text-white outline-none font-mono" dir="ltr">
+                                <button class="btn-primary" id="savePassBtn">Save Credentials</button>
                             </div>
                         </div>
                     </div>
@@ -292,55 +295,54 @@
     </div>
 
     <!-- MODAL: Add User -->
-    <div class="modal-backdrop" id="addUserModal" hidden>
-        <div class="modal">
-            <h3 class="text-lg font-bold text-white mb-3">افزودن کاربر جدید</h3>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay opacity-0 pointer-events-none transition-opacity duration-300" id="addUserModal" hidden>
+        <div class="w-full max-w-md glass rounded-3xl p-6 transition-all duration-300 opacity-0 scale-95 modal-card">
+            <h3 class="text-lg font-bold text-white mb-3">Create New Proxy Key</h3>
             <label class="field mb-4">
-                <span>نام کاربر (اختیاری)</span>
-                <input id="newUserLabel" placeholder="به طور خودکار در صورت خالی بودن تولید می‌شود" class="w-full px-4 py-3 rounded-xl text-white outline-none">
+                <span>User Label (Optional)</span>
+                <input id="newUserLabel" placeholder="Auto-generated if left empty..." class="w-full px-4 py-3 rounded-xl text-white outline-none font-mono" dir="ltr">
             </label>
             <div class="modal-actions">
-                <button class="btn-ghost" data-close="addUserModal">انصراف</button>
-                <button class="btn-primary px-6" id="confirmAddUser">افزودن کاربر</button>
+                <button class="btn-ghost" onclick="closeModal('addUserModal')">Cancel</button>
+                <button class="btn-primary px-6" id="confirmAddUser">Create Key</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: QR / link -->
-    <div class="modal-backdrop" id="linkModal" hidden>
-        <div class="modal modal-narrow text-center">
-            <h3 class="text-lg font-bold text-white mb-4">لینک اتصال <span id="linkModalUser" class="mono-chip"></span></h3>
-            <div id="qrHolder" class="qr-holder mx-auto mb-4 bg-white p-3 rounded-xl"></div>
-            <div class="link-row mb-4">
-                <input id="linkModalUrl" readonly class="mono-input w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-zinc-400 text-xs">
-                <button class="btn-primary shrink-0" id="copyLinkBtn">کپی</button>
+    <!-- MODAL: QR / Link (MODAL POSITION FIX: CENTERED MODAL CARD WITH OVERLAY BLUR) -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay opacity-0 pointer-events-none transition-opacity duration-300" id="linkModal" hidden>
+        <div class="w-full max-w-sm glass rounded-3xl p-6 transition-all duration-300 opacity-0 scale-95 modal-card text-center">
+            <h3 class="text-lg font-bold text-white mb-4">Connection Link <span id="linkModalUser" class="mono-chip font-mono text-xs"></span></h3>
+            <div id="qrHolder" class="qr-holder mx-auto mb-4 bg-white p-3 rounded-2xl flex items-center justify-center shadow-inner"></div>
+            <div class="link-row mb-4 flex gap-2">
+                <input id="linkModalUrl" readonly class="mono-input w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-zinc-400 text-xs font-mono outline-none">
+                <button class="btn-primary shrink-0" id="copyLinkBtn">Copy</button>
             </div>
             <div class="modal-actions justify-center">
-                <button class="btn-ghost" data-close="linkModal">بستن پنجره</button>
+                <button class="btn-ghost w-full" onclick="closeModal('linkModal')">Close Dialog</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Forced first-run password change -->
-    <div class="modal-backdrop" id="forcePassModal" hidden>
-        <div class="modal">
-            <h3 class="text-lg font-bold text-white mb-2">تغییر مشخصات پیش‌فرض</h3>
-            <p class="hint mb-4">این پنل هنوز با مشخصات ورود پیش‌فرض فعال است. لطفا قبل از دسترسی کامل، اطلاعات لاگین جدید خود را مشخص کنید.</p>
+    <!-- MODAL: Forced first-run password change (NON-DISMISSABLE) -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay opacity-0 pointer-events-none transition-opacity duration-300" id="forcePassModal" hidden>
+        <div class="w-full max-w-md glass rounded-3xl p-6 transition-all duration-300 opacity-0 scale-95 modal-card">
+            <h3 class="text-lg font-bold text-white mb-2">Change Default Credentials</h3>
+            <p class="hint mb-4">This panel is currently running on first-install credentials. Please create a unique admin username and password before proceeding.</p>
             <label class="field mb-3">
-                <span>نام کاربری جدید</span>
-                <input id="forceUsername" placeholder="نام کاربری جدید" class="w-full px-4 py-3 rounded-xl text-white outline-none">
+                <span>New Admin Username</span>
+                <input id="forceUsername" placeholder="e.g. system_admin" class="w-full px-4 py-3 rounded-xl text-white outline-none font-mono" dir="ltr">
             </label>
             <label class="field mb-4">
-                <span>رمز عبور جدید</span>
-                <input id="forcePassword" type="password" placeholder="حداقل ۸ کاراکتر" class="w-full px-4 py-3 rounded-xl text-white outline-none">
+                <span>New Admin Password</span>
+                <input id="forcePassword" type="password" placeholder="At least 6 characters recommended" class="w-full px-4 py-3 rounded-xl text-white outline-none font-mono" dir="ltr">
             </label>
             <div class="modal-actions">
-                <button class="btn-primary w-full" id="forcePassSubmit">ثبت و ورود</button>
+                <button class="btn-primary w-full" id="forcePassSubmit">Save & Login</button>
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="/js/dashboard.js"></script>
 </body>
 </html>
