@@ -249,6 +249,14 @@ _clear_screen() {
   printf "\033[2J\033[H"
 }
 
+# Discard any pending keystrokes or newlines in the stdin buffer
+_flush_stdin() {
+  local discard
+  while read -t 0 -r discard; do
+    read -r discard
+  done
+}
+
 # ── box-drawing primitives (all lines = MENU_WIDTH printable chars) ──
 _top() { printf '╔'; _rp '═' $((MENU_WIDTH-2)); printf '╗\n'; }
 _bot() { printf '╚'; _rp '═' $((MENU_WIDTH-2)); printf '╝\n'; }
@@ -395,6 +403,7 @@ _select_user() {
 cmd_menu() {
   while true; do
     _clear_screen
+    _flush_stdin
 
     local cols
     cols=$(tput cols 2>/dev/null || echo 80)
@@ -415,9 +424,9 @@ cmd_menu() {
 
     read -rp "❯ " opt
     case "$opt" in
-      1) cmd_info; read -rp "Press enter..."; _clear_screen ;;
-      2) cmd_users; read -rp "Press enter..."; _clear_screen ;;
-      3) read -rp "Label (blank=auto): " l; cmd_add_user "$l"; read -rp "Press enter..."; _clear_screen ;;
+      1) cmd_info; read -rp "Press enter..." ;;
+      2) cmd_users; read -rp "Press enter..." ;;
+      3) read -rp "Label (blank=auto): " l; cmd_add_user "$l"; read -rp "Press enter..." ;;
       4) 
         local sel
         if sel=$(_select_user "Select a user to remove:" "false"); then
@@ -427,7 +436,7 @@ cmd_menu() {
         else
           echo "Operation cancelled."
         fi
-        read -rp "Press enter..."; _clear_screen 
+        read -rp "Press enter..."
         ;;
       5) 
         local sel
@@ -444,12 +453,12 @@ cmd_menu() {
         else
           echo "Operation cancelled."
         fi
-        read -rp "Press enter..."; _clear_screen 
+        read -rp "Press enter..."
         ;;
-      6) read -rp "username: " u; read -rp "password: " p; cmd_panel_password "$u" "$p"; read -rp "Press enter..."; _clear_screen ;;
-      7) cmd_stats; read -rp "Press enter..."; _clear_screen ;;
+      6) read -rp "username: " u; read -rp "password: " p; cmd_panel_password "$u" "$p"; read -rp "Press enter..." ;;
+      7) cmd_stats; read -rp "Press enter..." ;;
       0) exit 0 ;;
-      *) echo "invalid"; _clear_screen ;;
+      *) echo "Invalid option. Returning to menu..." >&2; sleep 1 ;;
     esac
   done
 }
